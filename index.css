@@ -1,0 +1,38 @@
+/* index.css */
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: blueviolet;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 300px;
+    height: 200px;
+
+    border: 3px solid silver;
+    border-radius: 50%;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: gold;
+}
+
+h1 {
+    margin: 0;
+    padding: 40px;
+
+    background-color: rgb(132, 12, 92);
+    color: rgb(154, 192, 19);
+    font-size: 4rem;
+    text-align: center;
+
+    text-shadow: 5px 10px 6px rgba(0, 0, 0, 0.7);
+}
