@@ -1,23 +1,37 @@
 // app.js
 
-const API_URL = "http://127.0.0.1:5000";
+const API_URL = "https://colourful-grant-semiliberally.ngrok-free.dev";
 
-/*"""
-This script connects the frontend to the backend.
+/*
+This script connects the GitHub Pages frontend
+to the Flask backend exposed via ngrok.
 
-It fetches the shared color and updates the UI.
-"""*/
+The ngrok-skip-browser-warning header is required
+to bypass ngrok's free-tier warning page.
+*/
 
 async function updateColor() {
-    const res = await fetch(`${API_URL}/color`);
+    const res = await fetch(`${API_URL}/color`, {
+        headers: {
+            "ngrok-skip-browser-warning": "true"
+        }
+    });
+
     const data = await res.json();
 
     document.querySelector(".container").style.backgroundColor = data.color;
 }
 
 async function toggleColor() {
-    await fetch(`${API_URL}/toggle`, { method: "POST" });
+    await fetch(`${API_URL}/toggle`, {
+        method: "POST",
+        headers: {
+            "ngrok-skip-browser-warning": "true"
+        }
+    });
+
     updateColor();
 }
 
+// Initial load
 updateColor();
