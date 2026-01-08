@@ -1,6 +1,6 @@
 // app.js
 
-const API_URL = "https://YOUR-NGROK-URL.ngrok.io";
+const API_URL = "http://127.0.0.1:5000";
 
 /*"""
 This script connects the frontend to the backend.
