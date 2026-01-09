@@ -1,46 +1,39 @@
 # server.py
+# Flask backend for product API using MongoDB Atlas
 
 from flask import Flask, jsonify
 from flask_cors import CORS
+from pymongo import MongoClient
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
-"""
-This server keeps a shared color state.
+# MongoDB connection
+mongo_uri = os.getenv("MONGO_URI")
+if not mongo_uri:
+    raise RuntimeError("MONGO_URI is not set")
 
-All clients read and modify the same state,
-allowing real-time shared interaction.
-"""
-
-color_state = {
-    "color": "gold"
-}
+client = MongoClient(mongo_uri)
+db = client["HOMEPAGE"]
+products = db["products"]
 
 
-@app.route("/color", methods=["GET"])
-def get_color():
-    """Return the current color.
-
-    This endpoint allows clients to read
-    the shared color state.
-    """
-    return jsonify(color_state)
-
-
-@app.route("/toggle", methods=["POST"])
-def toggle_color():
-    """Toggle the shared color.
-
-    Changes the color globally so all
-    connected clients see the update.
-    """
-    color_state["color"] = (
-        "gold" if color_state["color"] == "red" else "red"
+@app.route("/products", methods=["GET"])
+def get_products():
+    """Return active products."""
+    data = list(
+        products.find(
+            {"active": True},
+            {"_id": 0}
+        )
     )
-    return jsonify(color_state)
+    return jsonify(data)
 
 
 if __name__ == "__main__":
-    app.run(port=5000)
-
+    app.run(host="127.0.0.1", port=5000)

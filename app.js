@@ -1,37 +1,43 @@
 // app.js
+// Load products from Flask backend and render them
 
-const API_URL = "https://colourful-grant-semiliberally.ngrok-free.dev";
+const API_URL = "http://127.0.0.1:5000";
 
-/*
-This script connects the GitHub Pages frontend
-to the Flask backend exposed via ngrok.
+const statusEl = document.getElementById("status");
+const productsEl = document.getElementById("products");
 
-The ngrok-skip-browser-warning header is required
-to bypass ngrok's free-tier warning page.
-*/
+async function loadProducts() {
+    statusEl.textContent = "Status: loading products...";
 
-async function updateColor() {
-    const res = await fetch(`${API_URL}/color`, {
-        headers: {
-            "ngrok-skip-browser-warning": "true"
+    try {
+        const response = await fetch(`${API_URL}/products`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
         }
-    });
 
-    const data = await res.json();
+        const products = await response.json();
 
-    document.querySelector(".container").style.backgroundColor = data.color;
+        statusEl.textContent = `Status: loaded ${products.length} products`;
+        productsEl.innerHTML = "";
+
+        products.forEach(product => {
+            const card = document.createElement("div");
+            card.className = "product-card";
+
+            card.innerHTML = `
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <strong>${product.price} SEK</strong>
+            `;
+
+            productsEl.appendChild(card);
+        });
+
+    } catch (error) {
+        statusEl.textContent = "Status: error loading products";
+        productsEl.textContent = error.toString();
+    }
 }
 
-async function toggleColor() {
-    await fetch(`${API_URL}/toggle`, {
-        method: "POST",
-        headers: {
-            "ngrok-skip-browser-warning": "true"
-        }
-    });
-
-    updateColor();
-}
-
-// Initial load
-updateColor();
+loadProducts();

@@ -1,28 +1,19 @@
 <!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shared Button</title>
-    <link rel="stylesheet" href="index.css" />
+    <meta charset="UTF-8">
+    <title>Shop</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <nav>
-        <ul class="nav">
-            <li><a href="index.html">Home</a></li>
-        </ul>
-    </nav>
 
-    <div class="container">
-        <h1>Shared<br />Color</h1>
-    </div>
+<h1>Products</h1>
 
-    <button onclick="toggleColor()">Change Color</button>
+<p id="status">Status: waiting</p>
 
-    <script src="app.js"></script>
+<div id="products" class="product-grid"></div>
+
+<script src="app.js"></script>
 </body>
-
 </html>

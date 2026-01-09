@@ -1,0 +1,27 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+}
+
+#status {
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    background-color: #fafafa;
+}
+
+.product-card h3 {
+    margin-top: 0;
+}
