@@ -1,5 +1,7 @@
 # server.py
 
+import os
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
@@ -16,11 +18,6 @@ allowing real-time shared interaction.
 color_state = {
     "color": "gold"
 }
-
-openai_config = {
-    "api_key": ""
-}
-
 
 @app.route("/color", methods=["GET"])
 def get_color():
@@ -54,7 +51,7 @@ def set_openai_key():
     if not api_key:
         return jsonify({"message": "API key is required."}), 400
 
-    openai_config["api_key"] = api_key
+    os.environ["OPENAI_API_KEY"] = api_key
     return jsonify({"message": "OpenAI API key saved."}), 200
 
 

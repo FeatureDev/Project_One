@@ -43,17 +43,30 @@ async function saveOpenAiKey() {
         return;
     }
 
-    const res = await fetch(`${API_URL}/openai-key`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "ngrok-skip-browser-warning": "true"
-        },
-        body: JSON.stringify({ api_key: apiKey })
-    });
+    if (!apiKey.startsWith("sk-")) {
+        message.textContent = "Invalid API key format.";
+        return;
+    }
 
-    const data = await res.json();
-    message.textContent = data.message || "Unable to save API key.";
+    try {
+        const res = await fetch(`${API_URL}/openai-key`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "ngrok-skip-browser-warning": "true"
+            },
+            body: JSON.stringify({ api_key: apiKey })
+        });
+
+        const data = await res.json();
+        message.textContent = data.message || "Unable to save API key.";
+
+        if (!res.ok) {
+            return;
+        }
+    } catch (error) {
+        message.textContent = "Unable to save API key (network error).";
+    }
 }
 
 // Initial load

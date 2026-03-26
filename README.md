@@ -1,5 +1,5 @@
 ## Project_One
-Develpment
+Development
 #
 hello
 
