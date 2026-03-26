@@ -51,6 +51,9 @@ def set_openai_key():
     if not api_key:
         return jsonify({"message": "API key is required."}), 400
 
+    if not api_key.startswith("sk-") or len(api_key) < 20:
+        return jsonify({"message": "Invalid API key format."}), 400
+
     os.environ["OPENAI_API_KEY"] = api_key
     return jsonify({"message": "OpenAI API key saved."}), 200
 
