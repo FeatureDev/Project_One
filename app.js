@@ -33,5 +33,41 @@ async function toggleColor() {
     updateColor();
 }
 
+async function saveOpenAiKey() {
+    const input = document.querySelector("#openai-api-key");
+    const message = document.querySelector("#api-key-message");
+    const apiKey = input.value.trim();
+
+    if (!apiKey) {
+        message.textContent = "Please enter an API key.";
+        return;
+    }
+
+    if (!apiKey.startsWith("sk-")) {
+        message.textContent = "Invalid API key format.";
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API_URL}/openai-key`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "ngrok-skip-browser-warning": "true"
+            },
+            body: JSON.stringify({ api_key: apiKey })
+        });
+
+        const data = await res.json();
+        message.textContent = data.message || "Unable to save API key.";
+
+        if (!res.ok) {
+            return;
+        }
+    } catch (error) {
+        message.textContent = "Unable to save API key (network error).";
+    }
+}
+
 // Initial load
 updateColor();
